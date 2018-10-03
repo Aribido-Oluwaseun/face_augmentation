@@ -9,12 +9,20 @@ class DataProcessing:
 
     def __init__(self):
         pass
+    
+    def preprocess(self, data, proc_type):
+        """
 
+        :param data: a numpy array of size M,N
+        :param proc_type: the pre-processing type to be done on the image
+        :return: the preprocessed data
+        """
+        
     def load_images(self, path):
         """
 
         :param path: the location to read the images, ensure end of path is appended with "\\"
-        :return     X: X is a 4D numpy array of images where each ith index (i,M,N,3) is an RGB image M by N.
+        :return     X: 4D numpy array of images where each ith index (i,M,N,3) is an RGB image M by N.
                 files: list of filenames that each ith entry corresponds to the ith image in X.
         """
         images = []
@@ -60,12 +68,19 @@ class DataProcessing:
             Y[(ages>=agemin[jj])*(ages<=agemax[jj])]= jj
         return Y
     
-    def preprocess(self, data, proc_type):
-        """
+    def shuffle_data(X,Y):
+        '''
+        Takes both the data and labels and shuffles them parallel
+        :params X: images
+                Y: labels
+        :returns    Xshuff: X shuffled
+                    Yshuff: Y shuffled
+        '''
+        shufidx = np.random.choice(np.arange(0,len(Y)),size = len(Y), replace = False)
+        Xshuff = X[shufidx]
+        Yshuff = Y[shufidx]
+        return Xshuff, Yshuff
+    
 
-        :param data: a numpy array of size M,N
-        :param proc_type: the pre-processing type to be done on the image
-        :return: the preprocessed data
-        """
 
 
