@@ -26,14 +26,14 @@ class DataProcessing:
     savepath: string of path to save desination
     Returns: Nothing
     '''
-    files = os.listdir(path)
-    for file in files:
-        fullpath = os.path.join(path,file)         
-        if os.path.isfile(fullpath):
-            im = Image.open(fullpath)
-            f, e = os.path.splitext(file)
-            imResized = im.resize((256,256)) 
-            imResized.save(savepath + f + '.bmp', "BMP", quality=100)
+        files = os.listdir(path)
+        for file in files:
+            fullpath = os.path.join(path,file)         
+            if os.path.isfile(fullpath):
+                im = Image.open(fullpath)
+                f, e = os.path.splitext(file)
+                imResized = im.resize((256,256)) 
+                imResized.save(savepath + f + '.bmp', "BMP", quality=100)
 
     def load_images(self, path):
         """
