@@ -18,14 +18,14 @@ class DataProcessing:
         :return: the preprocessed data
         """
     def resize(path,savepath):
-    '''
-    This function loads all images from path and resizes them to 256x256, then
-    the files are saved as .bmp in as the new size in savepath.  This function 
-    will not affect the images in path.
-    path: string of path to folder of images
-    savepath: string of path to save desination
-    Returns: Nothing
-    '''
+        '''
+        This function loads all images from path and resizes them to 256x256, then
+        the files are saved as .bmp in as the new size in savepath.  This function 
+        will not affect the images in path.
+        path: string of path to folder of images
+        savepath: string of path to save desination
+        Returns: Nothing
+        '''
         files = os.listdir(path)
         for file in files:
             fullpath = os.path.join(path,file)         
