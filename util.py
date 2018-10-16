@@ -17,6 +17,37 @@ class DataProcessing:
         :param proc_type: the pre-processing type to be done on the image
         :return: the preprocessed data
         """
+        
+    def random_crops(path,savepath,numpatches,Mdim,Ndim):
+        '''
+        This function generates numpatches number random cropped patches of size 
+        Mdim X Ndim.
+        params: path: path which the images are loaded
+                savepath: path which the cropped patches are saved
+                numpatches: number of cropped patches per photo
+                Mdim: M dimension patch length
+                Ndim: N dimension patch width
+        returns: Nothing
+        '''
+
+        files = os.listdir(path)
+        for file in files:
+            fullpath = os.path.join(path,file)         
+            if os.path.isfile(fullpath):
+                im = Image.open(fullpath)
+                f, e = os.path.splitext(file)
+                (M,N) = im.size
+                rnglim = (M-Mdim,N-Ndim)
+                shufidxm = np.random.choice(np.arange(0,rnglim[0]),size = numpatch, replace = False)
+                shufidxn = np.random.choice(np.arange(0,rnglim[1]),size = numpatch, replace = False)
+                for jj in range(0,numpatch):
+                    cropm = shufidxm[jj]
+                    cropn = shufidxn[jj]
+                    imCrop = im.crop((cropm, cropn, cropm + 120, cropn + 120)) #corrected
+    #                imNoise = np.array(imCrop) + 10*np.random.randn(180,180,3)
+    #                imCrop= Image.fromarray(np.uint8(imNoise/255))
+                    imCrop.save(savepath + f + str(jj) +'.bmp', "BMP", quality=100)
+        
     def resize(path,savepath):
         '''
         This function loads all images from path and resizes them to 256x256, then
