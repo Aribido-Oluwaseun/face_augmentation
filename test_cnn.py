@@ -90,7 +90,7 @@ def TrainModel(loadpath,savepath, epochs, batch_size,train_size,
     #conditional statement necessary if this is an existing path, error is thrown otherwise.
     if os.path.exists(savepath)==False:
         os.makedirs(savepath)        
-    csv_logger = CSVLogger(savepath + '\\acclosslogdo04.csv')
+    csv_logger = CSVLogger(savepath + '\\acclosslog.csv')
 
     #Training/Fitting:
     hist = Qnet.fit(x_train, y_train, 
@@ -104,6 +104,6 @@ def TrainModel(loadpath,savepath, epochs, batch_size,train_size,
 
     score = Qnet.evaluate(x_test,y_test,batch_size=batch_size,verbose=0)
 
-    Qnet.save(savepath + '\\Qnetdo04.h5")
+    Qnet.save(savepath + '\\Qnet.h5")
               
               
