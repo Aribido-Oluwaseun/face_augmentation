@@ -58,3 +58,52 @@ def InitModel(M,N,C,num_classes):
 
     return Qnet
 
+def TrainModel(loadpath,savepath, epochs, batch_size,train_size,
+    #Load the Data to fit the model
+    f=h5py.File(loadpath + 'images_shuf.hdf5','r')
+    g= h5py.File(loadpath + 'labels_shuf.hdf5','r')
+    X = np.array(f.get('images'))
+    Y = np.array(g.get('labels'))
+    f.close()
+    g.close()
+
+    num_classes = len(np.unique(Y))
+    epochs = epochs
+    batch_size = batch_size
+    (L,M,N,C) = X.shape
+    train_size = train_size
+    test_size = L-train_size
+
+    #Data Preprocessing
+    X = X.astype('float32')
+    #X /= 255 #normalize grayscale
+    # X = np.reshape(X,(len(X),M,N,C,1)) #reshape in order to give the "dummy dimension" that would normally be occupied by RGB
+    Y = keras.utils.to_categorical(Y, num_classes) #y must be zero indexed 
+
+    x_train = X[0:train_size]
+    y_train = Y[0:train_size]
+    x_test = X[train_size:L]
+    y_test = Y[train_size:L]
+
+    #Data Output Initialize:
+    save_dir = savepath + '\\Logs'
+    #conditional statement necessary if this is an existing path, error is thrown otherwise.
+    if os.path.exists(savepath)==False:
+        os.makedirs(savepath)        
+    csv_logger = CSVLogger(savepath + '\\acclosslogdo04.csv')
+
+    #Training/Fitting:
+    hist = Qnet.fit(x_train, y_train, 
+                    batch_size=batch_size, 
+                    epochs =epochs, 
+                    verbose=1, 
+                    validation_data=(x_test, y_test),
+                    callbacks=[csv_logger])
+    print(hist.history)
+
+
+    score = Qnet.evaluate(x_test,y_test,batch_size=batch_size,verbose=0)
+
+    Qnet.save(savepath + '\\Qnetdo04.h5")
+              
+              
